@@ -114,7 +114,8 @@ public class Program
     public static void MainMenu()
     {
         while (true)
-        {           
+        {
+            Console.Clear();
             Console.WriteLine("Main Menu:");
             Console.WriteLine("1. Install new device");
             Console.WriteLine("2. Control a device");
@@ -143,6 +144,86 @@ public class Program
             }
         }
     }
+
+    public static void InstallDeviceMenu()
+    {
+        while (true)
+        {
+Console.Clear();
+            Console.WriteLine("Install a device menu");
+            Console.WriteLine("1. Install new smart light");
+            Console.WriteLine("2. Install a new smart security camera");
+            Console.WriteLine("3. Return to main menu");
+            Console.WriteLine("Please choose an option(1-3)");
+
+            String choice = Console.ReadLine();
+            switch (choice)
+            {
+                case "1":
+                    InstallSmartLightMenu();
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    return;
+            }
+
+
+        }
+    }
+
+    public static void InstallSmartLightMenu() {
+
+        // Collect info for theSmart light class
+        Console.WriteLine("\nInstall smart light");
+        Console.WriteLine("Enter device ID: ");
+        int deviceId = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("\nEnter device name: ");
+        string deviceName = Console.ReadLine();
+        Console.WriteLine("\n Enter brightness (1-100):");
+        double brightness = Convert.ToDouble(Console.ReadLine());
+        Console.WriteLine("Enter default colour: ");
+        string colour = Console.ReadLine();
+
+        //Create a new SmartLight object
+        SmartLight smartLight = new SmartLight(deviceId, deviceName, brightness, colour);
+
+        devices.Add(smartLight);
+
+        Console.WriteLine("Smart light installed. ");
+        Console.WriteLine($"Device ID: {smartLight.DeviceID}");
+        Console.WriteLine($"Name  :{smartLight.DeviceName}");
+        Console.WriteLine($"Defauly colour; { smartLight.Colour}");
+        Console.WriteLine($"Brightness : {smartLight.Brightness}");
+        Console.WriteLine("\nReturning to Main Menu");
+    }
+
+
+    public static void SaveDevices(List<SmartDevice>devices)
+    
+    {
+    var lines = new List<string>
+        {
+            "DeviceID, DeviceType, DeviceName, Brightness, Colour, CameraRes, CurrentTemp, TargetTemp, SpeakerVolume"
+        };
+        foreach (var device in devices) 
+        {
+            string deviceLine;
+            if (device is SmartLight light) 
+            {
+            
+            deviceLine = $"{light.DeviceID}, "+$" SmartLight, " +$"{light.Status},"+$" {light.Brightness},"+$"{light.Colour},,,";
+            }
+            lines.Add(deviceLine);
+            File.WriteAllLines(destinationFilePath, lines);
+
+
+
+        }
+    
+    }
+
+
 
 
 
